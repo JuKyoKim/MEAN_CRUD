@@ -58,11 +58,22 @@ module.exports = {
 		});
 	},/*end of the function*/
 
-	grabBlogComments:function(){
+	grabBlogComments:function(id, callback){
 		Post.find({_id: id}).exec(function(err, returnedPost){
-			returnedPost[0]
+			if(err){
+				console.log(err);	
+			}else{
+				var commentIdArr = returnedPost[0].commentsPosts
+				Comments.find({_id: { $in: commentIdArr}}).exec(function(err, commentsFound){
+					if(err){
+						console.log(err);
+					}else{
+						callback(commentsFound);
+					}
+				});
+			}
 		});
-	}
+	}/*end of the function*/
 
 
 };

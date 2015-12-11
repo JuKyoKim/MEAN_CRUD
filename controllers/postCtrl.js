@@ -31,9 +31,15 @@ module.exports.controller = function(app) {
 	});
 
 	//add comments
-	app.post('/post/:id/commentEntry',function(req,res){
+	app.post('/post/:id/new/comments',function(req,res){
 		Post.addComment(req.params.id, req.body, function(returned){
 			res.send(returned)
+		});
+	});
+
+	app.get('/post/:id/comments',function(req,res){
+		Post.grabBlogComments(req.params.id, function(returned){
+			res.send(returned);
 		});
 	});
 
