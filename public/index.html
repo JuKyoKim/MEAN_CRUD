@@ -1,14 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="blog">
+<!-- ng-app is up here! -->
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
 </head>
 <body>
 	
+	<header>
+		<div id="topNav">
+			<ul>
+				<!-- need to make these links switch based on user session -->
+				<li>
+					<a id="signin">login</a>
+					<div id="form_for_login" ng-controller="loginCtrl as loginCtrl">
+						<form>
+							<label>username</label>
+							<input id="username" type="text">
+			
+							<label>password</label>
+							<input id="password" type="text">
+			
+							<button ng-click="loginCtrl.signIn()">login</button>
+						</form>
+					</div>
+				</li>
 
+				<li>
+					<a>signUp</a>
+				</li>
+				<!-- need to make these links switch based on user session -->
+			</ul>
+		</div>
 
+		<div id="intro header">
+			<h1>Couldn't think of a name for my blog!</h1>
+			<p>It's a blog I made with the MEAN stack!</p>
+		</div>
+	</header>
 
+	<div id="main_body" ng-controller="blogCtrl as blogCtrl">
+
+		<button id="hide_reveal">add new post</button>
+		<div id="form_for_post">
+			<form>
+				<label>post title</label>
+				<input id="postTitle" type="text">
+
+				<label>post text</label>
+				<input id="postText" type="text">
+
+				<button id="submitPost" ng-click="blogCtrl.addPost()">submit post</button>
+			</form>
+		</div>
+
+		<!-- all the blog cards will go here -->
+		<div ng-repeat="blog in blogCtrl.all" class="panel panel-default singePost col-md-6">
+			<div class="header panel-heading" id="{{blog._id}}">
+				<h3>{{blog.postTitle}}</h3>
+			</div>
+
+			<div class="post panel-body">
+				<blogs post="{{blog.text}}"></blogs>
+
+				<div id="{{blog._id}}_comments">
+					<h3>Comments:</h3>
+					<div ng-init="blogCtrl.showComments(blog._id)"></div>
+				</div>
+
+				<div class="buttons_with_actions">
+
+					<button ng-click="blogCtrl.CommentForm(blog._id)" class="add_comment">add a comment</button>
+
+					<div class="form_for_comment" id="commentForm_{{blog._id}}">
+						<form>
+							<label>postTitle</label>
+							<input type="text" id="comTitle_{{blog._id}}">
+							<label>comment text</label>
+							<input type="text" id="comText_{{blog._id}}">
+							<button ng-click="blogCtrl.addCom(blog._id)">submit comment</button>
+						</form>
+					</div>
+
+					<button ng-click="blogCtrl.updateForm(blog._id)" class="update_post">update post</button>
+					<div class="form_for_update" id="updateForm_{{blog._id}}">
+						<form>
+							<label >updated title</label>
+							<input type="text" id="updateTitle_{{blog._id}}">
+							<label >updated text</label>
+							<input type="text" id="updateText_{{blog._id}}">
+							<button ng-click="blogCtrl.updatePost(blog._id)">submit update</button>
+						</form>
+					</div>
+
+					<button ng-click="blogCtrl.deletePost(blog._id)" class="delete_post">delete post</button>					
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="col-md-12">
+  		<ul>
+  			<li><a href="https://github.com/JuKyoKim/MEAN_CRUD">github</a></li>
+  			<li>&copy tom 2015</li>
+  		</ul>
+	</footer>
+
+	
+	<!-- sourced all JS lib down here! -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- sourced all angular file i wrote here -->
 	<script src="js/app.js"></script>
+	<!-- controllers -->
+	<script src="js/angular/controllers/blogCtrl.js"></script>
+	<script src="js/angular/controllers/loginCtrl.js"></script>
+	<script src="js/angular/views/blog_view.js"></script>
 </body>
 </html>

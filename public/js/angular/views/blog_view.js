@@ -1,13 +1,12 @@
 app.directive('blogs', blogView);
 
-function blogView() {
+function blogView(){
   var directive = {};
-  directive.restrict = 'A';
+  directive.restrict = 'E';
   directive.replace = true;
-  directive.templateUrl = 'blog_view.html';
+  directive.templateUrl = 'js/angular/views/blog_view.html';
   directive.scope = {
-    postTitle: '@',
-    text: '@'
+    post: '@'
   };
   return directive;
 }

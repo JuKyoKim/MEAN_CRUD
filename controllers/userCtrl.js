@@ -44,7 +44,15 @@ module.exports.controller = function(app) {
 	});
 
 	//create a new blog entry
-	app.post('/users/blogEntry', function(req, res){
+	app.post('/users/newBlog', function(req, res){
+    	if(!req.session.name){
+    		res.send({
+    			logged_in:false,
+    			username:null,
+    			reason:"you are not logged in, cannot post new blog"
+    		});
+    	}
+
     	User.addBlogPost(req.session.name, req.body, function(user){
     		res.send(user);
     	});
